@@ -1,0 +1,24 @@
+# This is an LRD pipepeline
+
+pool: default
+
+steps:
+#   Checkout our new repository
+#-   checkout: self
+#   Execute DevWeb in the current directory
+-   script: "\"%DEVWEB_PATH%\\DevWeb.exe\"
+            -mode=load
+            \"C:\\Users\\demo\\Documents\\DevWeb Visual Studio Code\\AOS-S01 API Shopping Cart DevWeb\""
+
+#   Archive the results of the SLA
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: 'C:\Users\demo\Documents\DevWeb Visual Studio Code\AOS-S01 API Shopping Cart DevWeb\*.xml'
+    failTaskOnFailedTests: true
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: 'C:\Users\demo\Documents\DevWeb Visual Studio Code\AOS-S01 API Shopping Cart DevWeb\results'
+    artifact: 'results'
+    publishLocation: 'pipeline'
